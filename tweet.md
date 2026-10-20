@@ -17,7 +17,7 @@ DeepInfer 是另一套思路：只服务一个模型、一种卡，把能省的�
 · Decode 用 EP64~128 的 Wide-EP，不为别的，就为每卡少读几个专家
 · EPLB 两级贪心：先给热点专家加副本，再按历史峰值摆位置。我拿合成负载跑了下，peak load 268→191
 · SWA KV 不进分页块，单独 state cache，134 token 的 ring；落盘再加两段余量到 396
-· YoCo 让 decoder 只重算最后 128 个 token，prefill 计算量近乎减半，代价是两条 assert
+· YoCo 让 decoder 只重算最后 128 个 token（保留 140 覆盖回退），prefill 计算量近乎减半，代价是两条 assert
 · 零开销调度：GPU 算 forward(N) 时 CPU 跑 schedule(N+1)，资源延后一步释放
 
 两个仓库的分工特别清楚：Recipe 说「这次要 JSON」，DeepInfer 用 xgrammar 把非法 token 的 logit 打成 -inf。一个声明约束，一个执行约束。

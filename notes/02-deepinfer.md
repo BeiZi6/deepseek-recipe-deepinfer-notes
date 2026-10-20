@@ -63,7 +63,9 @@ Q&A 给的生产参数：Prefill 每卡 4 个冗余起步、窗口 100、每 100
 
 回退 6 从哪来：`DEEPINFER_MAX_BACKTRACKING_TOKENS = max(env, nextn + 1)`，nextn 默认 5 → 6。
 
-**YoCo 截断**（`models/v4_modules/yoco.py`、`deepseek.py` 的 `_init_yoco`）：prefill 时 decoder 层只重算 prompt 末尾 128 个 token，产出**只给 decode 用、不进前缀缓存**。所以总 prefill 计算量近乎减半。
+**YoCo 截断**（`models/v4_modules/yoco.py`、`deepseek.py` 的 `_init_yoco`）：prefill 时 decoder 层只重算 prompt 末尾那一小段（Q&A 说 128 个 token；README 的默认配置保留 140，覆盖窗口 128 + 回退 6），产出**只给 decode 用、不进前缀缓存**。所以总 prefill 计算量近乎减半。
+
+注意 `DEEPINFER_YOCO_PREFILL_KEEP_TOKENS` 的代码默认值是 0（`environ.py`），必须显式设置；README 给的 140 是 V4.1 的推荐值。
 
 代价是两条硬约束（代码里是 assert）：
 
