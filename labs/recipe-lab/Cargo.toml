@@ -1,0 +1,12 @@
+[package]
+name = "deepseek-recipe-lab"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+deepseek-recipe = "0.2"
+deepseek-recipe-encoding = "0.2"
+serde_json = "1"
+tokenizers = "0.23"
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
+tokio-stream = "0.1"

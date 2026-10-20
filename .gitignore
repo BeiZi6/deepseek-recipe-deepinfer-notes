@@ -1,0 +1,4 @@
+.research/
+labs/recipe-lab/target/
+.venv*/
+__pycache__/
